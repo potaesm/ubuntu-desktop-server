@@ -6,7 +6,7 @@ ENV VNC_PASSWORD aabbccdd
 
 # App utils
 RUN apt-get update && \
-    apt-get install -y apt-utils 2> >( grep -v 'debconf: delaying package configuration, since apt-utils is not installed' >&2 )
+    apt-get install -y apt-utils 2>&1 | grep -v "debconf: delaying package configuration, since apt-utils is not installed"
 
 # Base Ubuntu Desktop with VNC server
 RUN apt-get update && \
@@ -71,7 +71,8 @@ RUN apt-get install -y --no-install-recommends firefox
 # Ngrok
 RUN wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && \
     unzip ngrok-stable-linux-amd64.zip && \
-    mv ./ngrok /usr/bin/ngrok
+    mv ./ngrok /usr/bin/ngrok && \
+    rm -rf ngrok-stable-linux-amd64.zip
 
 # Clean up
 RUN apt-get clean -y && \
@@ -91,9 +92,6 @@ RUN echo $VNC_PASSWORD | vncpasswd -f > /root/.vnc/passwd
 RUN chmod 600 /root/.vnc/passwd
 
 RUN apt-get update
-
-# Set Background
-RUN gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/warty-final-ubuntu.png'
 
 # NoVNC
 RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
