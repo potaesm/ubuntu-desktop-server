@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+ARG PORT
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
 ENV VNC_PASSWORD aabbccdd
@@ -96,7 +98,8 @@ RUN apt-get update
 # NoVNC
 RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
 CMD /usr/bin/vncserver :1 -geometry 1366x768 -depth 24 && websockify -D --web=/usr/share/novnc/ --cert=~/novnc.pem 80 localhost:5901 && tail -f /root/.vnc/*:1.log
-EXPOSE 80
+# EXPOSE 80
+EXPOSE ${PORT}
 
 # VNC
 # CMD /usr/bin/vncserver :1 -geometry 1280x800 -depth 24 && tail -f /root/.vnc/*:1.log
