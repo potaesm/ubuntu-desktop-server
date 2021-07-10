@@ -68,6 +68,11 @@ RUN apt-get install -y --no-install-recommends abiword
 # Firefox
 RUN apt-get install -y --no-install-recommends firefox
 
+# Ngrok
+RUN wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && \
+    unzip ngrok-stable-linux-amd64.zip && \
+    mv ./ngrok /usr/bin/ngrok
+
 # Clean up
 RUN apt-get clean -y && \
     echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
