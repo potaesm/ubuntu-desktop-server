@@ -15,7 +15,6 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gnome-panel \
     gnome-settings-daemon \
-    gnome-session \
     metacity \
     nautilus
 
@@ -29,14 +28,14 @@ RUN apt-get update && \
     bzip2 \
     wget \
     curl \
-    sakura \
     openssh-client \
     nano \
     vim \
     vim-gtk3 \
     git \
     gnupg2 \
-    net-tools
+    net-tools \
+    tilda
 
 # Set Locale and Timezone
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
@@ -58,13 +57,12 @@ RUN apt-get install -y --no-install-recommends xfonts-thai
 RUN apt-get install -y --no-install-recommends abiword
 
 # Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-	apt-get install -y ./google-chrome-stable_current_amd64.deb
+# RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+# 	apt-get install -y ./google-chrome-stable_current_amd64.deb
 
 # Clean up
 RUN apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/* && \
-    mkdir /root/.vnc
+    rm -rf /var/lib/apt/lists/*
 
 # Create necessary directory
 RUN mkdir /root/.config && chmod 777 /root/.config
