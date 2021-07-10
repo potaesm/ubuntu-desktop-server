@@ -2,28 +2,34 @@ FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
-ENV VNC_PASSWORD=aabbccdd
+ENV VNC_PASSWORD aabbccdd
+
+# App utils
+RUN apt-get update && \
+    apt-get install -y apt-utils 2> >( grep -v 'debconf: delaying package configuration, since apt-utils is not installed' >&2 )
 
 # Base Ubuntu Desktop with VNC server
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ubuntu-desktop \
+    build-essential \
+    software-properties-common \
+    locales \
     novnc \
     websockify \
     tightvncserver
 
 # Gnome
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnome-panel \
+    apt-get install -y --no-install-recommends gnome-session \
+    gnome-applets \
+    gnome-panel \
     gnome-settings-daemon \
     metacity \
     nautilus
 
 # Basic Tools
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends build-essential \
-    software-properties-common \
-    apt-utils \
-    locales \
+    apt-get install -y --no-install-recommends psmisc \
     unzip \
     bzip2 \
     wget \
@@ -31,10 +37,13 @@ RUN apt-get update && \
     openssh-client \
     nano \
     vim \
-    vim-gtk3 \
     git \
     gnupg2 \
-    net-tools \
+    net-tools
+
+# Vim and Terminal GUI
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends vim-gtk3 \
     tilda
 
 # Set Locale and Timezone
@@ -56,17 +65,19 @@ RUN apt-get install -y --no-install-recommends xfonts-thai
 # AbiWord
 RUN apt-get install -y --no-install-recommends abiword
 
-# Chrome
-# RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-# 	apt-get install -y ./google-chrome-stable_current_amd64.deb
+# Firefox
+RUN apt-get install -y --no-install-recommends firefox
 
 # Clean up
 RUN apt-get clean -y && \
+    echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
     rm -rf /var/lib/apt/lists/*
 
 # Create necessary directory
+RUN chmod 777 /home
 RUN mkdir /root/.config && chmod 777 /root/.config
 RUN mkdir /root/Desktop && chmod 777 /root/Desktop
+RUN mkdir -p /usr/share/gnome-panel/applets && chmod 777 /usr/share/gnome-panel/applets
 
 # Setup VNC
 RUN mkdir /root/.vnc
@@ -75,6 +86,9 @@ RUN echo $VNC_PASSWORD | vncpasswd -f > /root/.vnc/passwd
 RUN chmod 600 /root/.vnc/passwd
 
 RUN apt-get update
+
+# Set Background
+RUN gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/warty-final-ubuntu.png'
 
 # NoVNC
 RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
