@@ -16,14 +16,14 @@ RUN apt-get update && \
     build-essential \
     software-properties-common \
     locales \
+    x11-utils \
+    tightvncserver \
     novnc \
-    websockify \
-    tightvncserver
+    websockify
 
 # Gnome
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gnome-session \
-    gnome-applets \
     gnome-panel \
     gnome-settings-daemon \
     metacity \
@@ -86,6 +86,7 @@ RUN apt-get clean -y && \
 
 # Create necessary directory
 RUN chmod 777 /home
+RUN mkdir /root/.Xauthority && chmod 777 /root/.Xauthority
 RUN mkdir /root/.config && chmod 777 /root/.config
 RUN mkdir /root/Desktop && chmod 777 /root/Desktop
 RUN mkdir -p /usr/share/gnome-panel/applets && chmod 777 /usr/share/gnome-panel/applets
@@ -95,12 +96,13 @@ RUN mkdir /root/.vnc
 ADD xstartup /root/.vnc/xstartup
 RUN echo $VNC_PASSWORD | vncpasswd -f > /root/.vnc/passwd
 RUN chmod 600 /root/.vnc/passwd
+RUN cp -R /usr/share/novnc/vnc.html /usr/share/novnc/index.html
 
 RUN apt-get update
 
 # NoVNC
 # RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
-CMD /usr/bin/vncserver :1 -geometry 1366x768 -depth 24 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log
+CMD /usr/bin/vncserver :1 -geometry 1366x768 -depth 12 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log
 EXPOSE ${PORT}
 
 # VNC

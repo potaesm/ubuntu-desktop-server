@@ -10,7 +10,6 @@ xsetroot -solid grey
 vncconfig -iconic &
 
 gnome-session &
-gnome-applets &
 gnome-panel &
 gnome-settings-daemon &
 metacity &
