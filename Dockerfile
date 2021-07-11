@@ -73,6 +73,9 @@ RUN apt-get install -y --no-install-recommends firefox
 # Pinta
 RUN apt-get install -y --no-install-recommends pinta
 
+# Geany
+RUN apt-get install -y --no-install-recommends geany
+
 # Ngrok
 RUN wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && \
     unzip ngrok-stable-linux-amd64.zip && \
