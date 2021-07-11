@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-ARG PORT
+ARG PORT=80
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
@@ -70,6 +70,9 @@ RUN apt-get install -y --no-install-recommends abiword
 # Firefox
 RUN apt-get install -y --no-install-recommends firefox
 
+# Pinta
+RUN apt-get install -y --no-install-recommends pinta
+
 # Ngrok
 RUN wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && \
     unzip ngrok-stable-linux-amd64.zip && \
@@ -96,9 +99,8 @@ RUN chmod 600 /root/.vnc/passwd
 RUN apt-get update
 
 # NoVNC
-RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
-CMD /usr/bin/vncserver :1 -geometry 1366x768 -depth 24 && websockify -D --web=/usr/share/novnc/ --cert=~/novnc.pem 80 localhost:5901 && tail -f /root/.vnc/*:1.log
-# EXPOSE 80
+# RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
+CMD /usr/bin/vncserver :1 -geometry 1366x768 -depth 24 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log
 EXPOSE ${PORT}
 
 # VNC
