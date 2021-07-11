@@ -4,7 +4,6 @@
 ```bash
 docker build -t ubuntu-desktop-server:1.0.0 .
 ```
-
 ## Railway deployment
 1. Connect the project
 ```bash
