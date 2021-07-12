@@ -88,7 +88,7 @@ RUN wget https://dl.flareget.com/downloads/files/flareget/debs/amd64/flareget_5.
     rm -rf flareget_5.0-1_amd64.deb
 
 # NodeJS
-RUN npm install npm@latest -g && \
+RUN apt-get install -y --no-install-recommends npm && \
     npm install n -g && \
     n lts
 
