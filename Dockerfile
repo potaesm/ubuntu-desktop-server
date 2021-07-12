@@ -83,11 +83,10 @@ RUN apt-get install -y --no-install-recommends okular
 RUN apt-get install -y --no-install-recommends gthumb
 
 # Flareget
-RUN apt-get install -y --no-install-recommends gdebi-core && \
+RUN apt-get install -y --no-install-recommends gdebi && \
     wget https://dl.flareget.com/downloads/files/flareget/debs/amd64/flareget_5.0-1_amd64.deb && \
-    mv flareget_5.0-1_amd64.deb flareget.deb && \
-    gdebi flareget.deb && \
-    rm -rf flareget.deb
+    gdebi flareget_5.0-1_amd64.deb && \
+    rm -rf flareget_5.0-1_amd64.deb
 
 # NodeJS
 RUN npm install npm@latest -g && \
