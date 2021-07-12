@@ -82,6 +82,17 @@ RUN apt-get install -y --no-install-recommends okular
 # gThumb
 RUN apt-get install -y --no-install-recommends gthumb
 
+# Flareget
+RUN apt-get install -y --no-install-recommends gdebi && \
+    wget https://dl.flareget.com/downloads/files/flareget/debs/amd64/flareget_5.0-1_amd64.deb && \
+    gedbi flareget_5.0-1_amd64.deb && \
+    rm -rf flareget_5.0-1_amd64.deb
+
+# NodeJS
+RUN npm install npm@latest -g && \
+    npm install n -g && \
+    n lts
+
 # Ngrok
 RUN wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && \
     unzip ngrok-stable-linux-amd64.zip && \
@@ -114,7 +125,7 @@ RUN swapoff -a
 
 # NoVNC
 # RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
-CMD /usr/bin/vncserver :1 -geometry 1280x600 -depth 16 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log
+CMD while true; do /usr/bin/vncserver :1 -geometry 1280x600 -depth 16 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log; done
 EXPOSE ${PORT}
 
 # VNC
