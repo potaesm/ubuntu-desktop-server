@@ -83,7 +83,7 @@ RUN apt-get install -y --no-install-recommends okular
 RUN apt-get install -y --no-install-recommends gthumb
 
 # Flareget
-RUN apt-get install -y --no-install-recommends gdebi && \
+RUN apt-get install -y --no-install-recommends gdebi-core && \
     wget https://dl.flareget.com/downloads/files/flareget/debs/amd64/flareget_5.0-1_amd64.deb && \
     gedbi flareget_5.0-1_amd64.deb && \
     rm -rf flareget_5.0-1_amd64.deb
