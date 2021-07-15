@@ -23,8 +23,7 @@ RUN apt-get update && \
 
 # Gnome
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnome-session \
-    gnome-panel \
+    apt-get install -y --no-install-recommends gnome-panel \
     gnome-settings-daemon \
     metacity \
     nautilus
