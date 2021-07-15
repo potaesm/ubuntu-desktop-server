@@ -82,6 +82,9 @@ RUN apt-get install -y --no-install-recommends okular
 # gThumb
 RUN apt-get install -y --no-install-recommends gthumb
 
+# Gnumeric
+RUN apt-get install -y --no-install-recommends gnumeric
+
 # Flareget
 RUN wget https://dl.flareget.com/downloads/files/flareget/debs/amd64/flareget_5.0-1_amd64.deb && \
     dpkg -i flareget_5.0-1_amd64.deb || true && \
@@ -124,7 +127,7 @@ RUN swapoff -a
 
 # NoVNC
 # RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
-CMD while true; do /usr/bin/vncserver :1 -geometry 1280x600 -depth 16 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log; done
+CMD while true; do /usr/bin/vncserver :1 -geometry 1300x680 -depth 16 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log; done
 EXPOSE ${PORT}
 
 # VNC
