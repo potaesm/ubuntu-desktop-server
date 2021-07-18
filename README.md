@@ -5,11 +5,15 @@
 docker build -t ubuntu-desktop-server:1.0.0 .
 ```
 ## Railway deployment
-1. Connect the project
+1. Login to Railway
+```bash
+railway login
+```
+2. Connect the project
 ```bash
 railway link project-id
 ```
-2. Push to railway
+3. Push to railway
 ```bash
 railway up
 ```
