@@ -84,6 +84,12 @@ RUN apt-get install -y --no-install-recommends gthumb
 # Gnumeric
 RUN apt-get install -y --no-install-recommends gnumeric
 
+# Dillo
+RUN apt-get install -y --no-install-recommends dillo
+
+# Pdfshuffler
+RUN apt-get install -y --no-install-recommends pdfshuffler
+
 # Flareget
 RUN wget https://dl.flareget.com/downloads/files/flareget/debs/amd64/flareget_5.0-1_amd64.deb && \
     dpkg -i flareget_5.0-1_amd64.deb || true && \
