@@ -90,6 +90,11 @@ RUN apt-get install -y --no-install-recommends dillo
 # Pdfshuffler
 RUN apt-get install -y --no-install-recommends pdfshuffler
 
+# Midori
+RUN apt-get install -y --no-install-recommends flatpak && \
+    flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo && \
+    flatpak install flathub org.midori_browser.Midori
+
 # Flareget
 RUN wget https://dl.flareget.com/downloads/files/flareget/debs/amd64/flareget_5.0-1_amd64.deb && \
     dpkg -i flareget_5.0-1_amd64.deb || true && \
