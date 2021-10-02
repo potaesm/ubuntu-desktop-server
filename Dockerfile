@@ -91,9 +91,20 @@ RUN apt-get install -y --no-install-recommends dillo
 RUN apt-get install -y --no-install-recommends pdfshuffler
 
 # Midori
-RUN apt-get install -y --no-install-recommends flatpak && \
-    flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo && \
-    flatpak install flathub org.midori_browser.Midori
+RUN apt-get install -y --no-install-recommends libc6 \
+    libcairo2 \
+    libgcr-base-3-1 \
+    libgcr-ui-3-1 \
+    libgdk-pixbuf2.0-0 \
+    libglib2.0-0 \
+    libgtk-3-0 \
+    libpeas-1.0-0 \
+    libsoup2.4-1 \
+    libsqlite3-0 \
+    libwebkit2gtk-4.0-37
+RUN wget http://archive.ubuntu.com/ubuntu/pool/universe/m/midori/midori_7.0-2.1_amd64.deb && \
+    dpkg -i midori_7.0-2.1_amd64.deb || true && \
+    rm -rf midori_7.0-2.1_amd64.deb
 
 # Flareget
 RUN wget https://dl.flareget.com/downloads/files/flareget/debs/amd64/flareget_5.0-1_amd64.deb && \
