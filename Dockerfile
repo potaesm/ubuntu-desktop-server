@@ -1,6 +1,6 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
-ARG PORT=80
+ARG PORT=8084
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
@@ -67,7 +67,8 @@ RUN apt-get install -y --no-install-recommends xfonts-thai
 RUN apt-get install -y --no-install-recommends abiword
 
 # Firefox
-RUN apt-get install -y --no-install-recommends firefox
+RUN apt-get install -y --no-install-recommends firefox=75.0+build3-0ubuntu1 && \
+    apt-mark hold firefox
 
 # Pinta
 RUN apt-get install -y --no-install-recommends pinta
@@ -130,7 +131,10 @@ RUN apt-get clean -y && \
 # Create necessary directory
 RUN chmod 777 /home
 RUN mkdir /root/.Xauthority && chmod 777 /root/.Xauthority
-RUN mkdir /root/.config && chmod 777 /root/.config
+# For ubuntu:20.04
+RUN chmod 777 /root/.config
+# For ubuntu:18.04
+# RUN mkdir /root/.config && chmod 777 /root/.config
 RUN mkdir /root/Desktop && chmod 777 /root/Desktop
 RUN mkdir -p /usr/share/gnome-panel/applets && chmod 777 /usr/share/gnome-panel/applets
 
