@@ -23,7 +23,6 @@ jobs:
 
     - name: Install npm packages
       run: |
-        npm install
         sudo npm install -g @railway/cli --scripts-prepend-node-path
         railway up
       env:
