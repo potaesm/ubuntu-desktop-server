@@ -1,0 +1,44 @@
+name: Railway deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # Send LINE Notify
+    - name: Send "Deploy - Started"
+      uses: snow-actions/line-notify@v1.0.0
+      with:
+        access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
+        message: |
+          Deploy - Started
+          commit - ${{ github.event.head_commit.message }}
+          by ${{ github.event.head_commit.author.name }}, ${{ github.event.head_commit.timestamp }}
+
+    - name: Install npm packages
+      run: |
+        npm install
+        sudo npm install -g @railway/cli --scripts-prepend-node-path
+        railway up
+      env:
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+    
+    # Send LINE Notify
+    - name: Send "Deploy - Failed"
+      if: ${{ failure() }}
+      uses: snow-actions/line-notify@v1.0.0
+      with:
+        access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
+        message: Deploy - Failed
+    - name: Send "Deploy - Finished"
+      if: ${{ success() }}
+      uses: snow-actions/line-notify@v1.0.0
+      with:
+        access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
+        message: Deploy - Finished
