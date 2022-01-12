@@ -17,7 +17,7 @@ RUN apt-get update && \
     software-properties-common \
     locales \
     x11-utils \
-    tightvncserver \
+    tigervnc-standalone-server \
     novnc \
     websockify
 
