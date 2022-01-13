@@ -4,7 +4,7 @@ ARG PORT=8084
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
-ENV VNC_PASSWORD aabbccdd
+ENV VNC_PASSWORD Ftvgbhryn@
 
 # App utils
 RUN apt-get update && \
@@ -144,6 +144,7 @@ ADD xstartup /root/.vnc/xstartup
 RUN echo $VNC_PASSWORD | vncpasswd -f > /root/.vnc/passwd
 RUN chmod 600 /root/.vnc/passwd
 RUN cp -R /usr/share/novnc/vnc.html /usr/share/novnc/index.html
+
 RUN apt-get update
 
 # Turn off swap
@@ -151,7 +152,7 @@ RUN swapoff -a
 
 # NoVNC
 # RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
-CMD while true; do echo $VNC_PASSWORD | /usr/bin/vncserver :1 -geometry 1300x600 -depth 16 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log; done
+CMD while true; do /usr/bin/vncserver :1 -geometry 1300x600 -depth 16 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log; done
 EXPOSE ${PORT}
 
 # VNC
