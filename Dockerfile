@@ -145,7 +145,6 @@ ADD xstartup /root/.vnc/xstartup
 RUN echo $VNC_PASSWORD | vncpasswd -f > /root/.vnc/passwd
 RUN chmod 600 /root/.vnc/passwd
 RUN cp -R /usr/share/novnc/vnc.html /usr/share/novnc/index.html
-
 RUN apt-get update
 
 # Turn off swap
