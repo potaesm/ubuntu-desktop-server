@@ -153,7 +153,7 @@ RUN swapoff -a
 
 # NoVNC
 # RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
-RUN echo $VNC_PASSWORD | vncpasswd
+RUN echo $VNC_PASSWORD | vncpasswd -f
 CMD while true; do /usr/bin/vncserver :1 -geometry 1300x600 -depth 16 && websockify -D --web=/usr/share/novnc/ ${PORT} localhost:5901 && tail -f /root/.vnc/*:1.log; done
 EXPOSE ${PORT}
 
