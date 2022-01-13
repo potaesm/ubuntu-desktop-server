@@ -4,7 +4,7 @@ ARG PORT=8084
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
-ENV VNC_PASSWORD Ftvgbhryn@
+ENV VNC_PASSWORD aabbccdd
 
 # App utils
 RUN apt-get update && \
